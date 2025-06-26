@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SATORI STRENGTH - Reserva de Clases</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>SATORI STRENGTH</h1>
+  </header>
+  
+  <main>
+    <section id="class-schedule">
+      <h2>Horario de Clases</h2>
+      
+      <!-- Clases de Crossfit/Funcional -->
+      <div class="class-card">
+        <h3>Clases de Crossfit/Funcional</h3>
+        <p>Sesiones de 1 hora:</p>
+        <ul>
+          <li>6:30 AM</li>
+          <li>8:00 AM</li>
+          <li>9:00 AM</li>
+          <li>12:00 PM</li>
+          <li>4:30 PM</li>
+          <li>5:30 PM</li>
+          <li>6:30 PM</li>
+          <li>7:30 PM</li>
+        </ul>
+      </div>
+
+      <!-- Zona de Entrenamiento Libre -->
+      <div class="class-card">
+        <h3>Zona Libre (Programas Personales & Halterofilia)</h3>
+        <ul>
+          <li>Mañana: 9:00 AM - 12:00 PM</li>
+          <li>Tarde: 3:30 PM - 6:00 PM</li>
+          <li>Noche: 6:00 PM - 8:30 PM</li>
+        </ul>
+      </div>
+    </section>
+    
+    <section id="booking-form">
+      <h2>Reserva Tu Lugar</h2>
+      <form id="reservationForm">
+        <input type="text" id="name" placeholder="Tu Nombre" required>
+        <input type="tel" id="phone" placeholder="Tu WhatsApp (+34 123 456 789)" required>
+        <select id="classType" required>
+          
+          <!-- Clases de Crossfit/Funcional -->
+          <optgroup label="Clases de Crossfit/Funcional">
+            <option value="crossfit-6:30">6:30 AM</option>
+            <option value="crossfit-8:00">8:00 AM</option>
+            <option value="crossfit-9:00">9:00 AM</option>
+            <option value="crossfit-12:00">12:00 PM</option>
+            <option value="crossfit-16:30">4:30 PM</option>
+            <option value="crossfit-17:30">5:30 PM</option>
+            <option value="crossfit-18:30">6:30 PM</option>
+            <option value="crossfit-19:30">7:30 PM</option>
+          </optgroup>
+          
+          <!-- Zona Libre -->
+          <optgroup label="Zona Libre">
+            <option value="open-gym-morning">Mañana (9:00 AM - 12:00 PM)</option>
+            <option value="open-gym-afternoon">Tarde (3:30 PM - 6:00 PM)</option>
+            <option value="open-gym-evening">Noche (6:00 PM - 8:30 PM)</option>
+          </optgroup>
+        </select>
+        <input type="date" id="date" required>
+        <button type="submit">Enviar por WhatsApp</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2024 SATORI STRENGTH</p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>
