@@ -1,33 +1,52 @@
-document.getElementById('reservationForm').addEventListener('submit', function(e) {
+// Replace with your Google Apps Script URL
+const API_URL = "https://script.google.com/macros/s/AKfycbxg6S__qKlEqgiLTqXfYVxh6BBNKj2P391ee6EC5dM1NeTZI077BWF9q4IHcaY0mpMm/exec";
+
+// Submit reservation
+document.getElementById('reservationForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   
-  // Get form values
   const name = document.getElementById('name').value;
-  const phone = document.getElementById('phone').value;
   const classType = document.getElementById('classType');
-  const selectedClass = classType.options[classType.selectedIndex].text;
+  const className = classType.options[classType.selectedIndex].text;
   const date = document.getElementById('date').value;
   
-  // Format WhatsApp message
-  const message = `¡Hola SATORI STRENGTH! Quiero reservar una clase.
-  
-*Nombre:* ${name}
-*Teléfono:* ${phone}
-*Clase:* ${selectedClass}
-*Fecha:* ${date}
-
-Por favor, confírmenme la disponibilidad. ¡Gracias!`;
-  
-  // Encode message for WhatsApp URL
-  const encodedMessage = encodeURIComponent(message);
-  
-  // Create WhatsApp link
-  // REPLACE 1234567890 WITH YOUR ACTUAL WHATSAPP NUMBER
-  const whatsappUrl = `https://wa.me/59162108521?text=${encodedMessage}`;
-  
-  // Open WhatsApp
-  window.open(whatsappUrl, '_blank');
-  
-  // Reset form
-  document.getElementById('reservationForm').reset();
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({ name, className, date }),
+      headers: { "Content-Type": "application/json" }
+    });
+    
+    const result = await response.json();
+    
+    if(result.status === "success") {
+      alert("¡Reserva enviada! Te confirmaremos por WhatsApp.");
+      document.getElementById('reservationForm').reset();
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Error al enviar reserva. Inténtalo de nuevo.");
+  }
 });
+
+// Display reservation count (for admin)
+async function showReservationCount() {
+  try {
+    const response = await fetch(API_URL);
+    const reservations = await response.json();
+    
+    // Count reservations per class/date
+    const counts = {};
+    
+    reservations.forEach(res => {
+      const key = `${res.className} - ${res.date}`;
+      counts[key] = (counts[key] || 0) + 1;
+    });
+    
+    // Display on page (simplified example)
+    console.log("Reservation Counts:", counts);
+    // You'll need to implement UI to display this
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}

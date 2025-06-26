@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - SATORI STRENGTH</title>
+  <style>
+    :root {
+      --dark: #121212;
+      --light: #ffffff;
+      --accent: #ff5e14;
+    }
+    
+    body {
+      background: var(--dark);
+      color: var(--light);
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: left;
+    }
+    
+    th {
+      background: #1a1a1a;
+    }
+    
+    tr:nth-child(even) {
+      background: #0d0d0d;
+    }
+    
+    .confirmed {
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SATORI STRENGTH - Panel de Administración</h1>
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="loadReservations()">Cargar Reservas</button>
+  </header>
+  
+  <main>
+    <table id="reservationsTable">
+      <thead>
+        <tr>
+          <th>Fecha/Hora</th>
+          <th>Nombre</th>
+          <th>Clase</th>
+          <th>Fecha Clase</th>
+          <th>Confirmado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be inserted here -->
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxg6S__qKlEqgiLTqXfYVxh6BBNKj2P391ee6EC5dM1NeTZI077BWF9q4IHcaY0mpMm/exec";
+    const ADMIN_PASSWORD = "satori2024"; // Change this!
+
+    async function loadReservations() {
+      const password = document.getElementById('password').value;
+      if(password !== ADMIN_PASSWORD) {
+        alert("Contraseña incorrecta");
+        return;
+      }
+      
+      try {
+        const response = await fetch(API_URL);
+        const reservations = await response.json();
+        
+        const tableBody = document.querySelector("#reservationsTable tbody");
+        tableBody.innerHTML = "";
+        
+        reservations.forEach(res => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${new Date(res.timestamp).toLocaleString()}</td>
+            <td>${res.name}</td>
+            <td>${res.className}</td>
+            <td>${res.date}</td>
+            <td class="${res.confirmed ? 'confirmed' : ''}">
+              ${res.confirmed ? '✅' : '❌'}
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Error al cargar reservas");
+      }
+    }
+  </script>
+</body>
+</html>
